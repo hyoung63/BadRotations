@@ -15,7 +15,20 @@ function br:MinimapButton()
 		self:ClearAllPoints()
 		self:SetPoint("CENTER", centerX, centerY)
 	end
-	br.BadRotationsButton = br._G.CreateFrame("Button", "BadRotationsButton", br._G.Minimap)
+
+	-- use user assigned name for addon for the minimap frame
+	-- even though having the name badrotations in the wow text file is said to not be a problem
+	-- paranoia says leave no trace...
+	local usename
+	for i = 1, _G.GetNumAddOns() do
+		local name, title = _G.GetAddOnInfo(i)
+		if title == "|cffa330c9BadRotations" then
+			usename = name
+			break
+		end
+	end
+
+	br.BadRotationsButton = br._G.CreateFrame("Button", tostring(usename) .. "Button", br._G.Minimap)
 	br.BadRotationsButton:SetHeight(25)
 	br.BadRotationsButton:SetWidth(25)
 	br.BadRotationsButton:SetFrameStrata("MEDIUM")
@@ -76,7 +89,7 @@ function br:MinimapButton()
 		"OnEnter",
 		function(self)
 			br._G.GameTooltip:SetOwner(br._G.Minimap, "ANCHOR_CURSOR", 50, 50)
-			br._G.GameTooltip:SetText("BadRotations", 214 / 255, 25 / 255, 25 / 255)
+			br._G.GameTooltip:SetText(tostring(usename), 214 / 255, 25 / 255, 25 / 255)
 			br._G.GameTooltip:AddLine("by CuteOne")
 			br._G.GameTooltip:AddLine("Left Click to toggle config frame.", 1, 1, 1, 1)
 			br._G.GameTooltip:AddLine("Shift+Left Click to toggle toggles frame.", 1, 1, 1, 1)
